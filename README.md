@@ -180,7 +180,6 @@ Calvary University
 
 ## Certifications and Professional Development
 
-> Replace planned credentials with earned certifications before submitting.
 
 - Microsoft 365 Certified: Endpoint Administrator Associate — planned / in progress
 - Microsoft Certified: Azure Administrator Associate — planned / in progress
