@@ -8,7 +8,9 @@ This section contains practical troubleshooting and implementation runbooks for 
 
 ## Runbooks
 
-- [Autopilot Troubleshooting](autopilot-troubleshooting.md)
+- [Autopilot Troubleshooting](- [Auttopilot-Troubleshooting-Decision-Tree.md
+- [Autoppilot-Troubleshooting-Framework.md
+)
 - [BitLocker Escrow Failure](bitlocker-escrow-failure.md)
 - [iOS AirWatch to Intune Migration](ios-airwatch-to-intune-migration.md)
 - [Windows Update for Business](windows-update-for-business.md)
