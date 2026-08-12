@@ -10,7 +10,7 @@ This section contains architecture, governance, and design guides for endpoint m
 
 - [Intune Multi-Admin Approval Guide](Multi-Admin-Approval-Implementation-Guide.md)
 - [Conditional Access and Compliance Architecture](conditional-access-compliance.md)
-- [SCCM to Intune Migration](./sccm-to-intune-migration.md)
+- [SCCM to Intune Migration](SCCM-to-intune-migration.md)
 - [Shared iPad Architecture](shared-ipad-architecture.md)
 
 ---
