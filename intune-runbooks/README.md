@@ -1,29 +1,48 @@
 # Intune Runbooks
 
-[Home](../index.md)
+../index.md
 
 ---
 
-This section contains practical troubleshooting and implementation runbooks for Microsoft Intune and endpoint management scenarios.
+Practical troubleshooting and implementation runbooks for Microsoft Intune, Windows Autopilot, endpoint management, and enterprise mobility scenarios.
 
-## Runbooks
+## Available Runbooks
 
-- [Autopilot Troubleshooting](- [Auttopilot-Troubleshooting-Decision-Tree.md
-- [Autoppilot-Troubleshooting-Framework.md
-)
-- [BitLocker Escrow Failure](bitlocker-escrow-failure.md)
-- [iOS AirWatch to Intune Migration](ios-airwatch-to-intune-migration.md)
-- [Windows Update for Business](windows-update-for-business.md)
+### Windows Autopilot
 
----
+#### Autopilot Troubleshooting Decision Tree
 
-## Purpose
+A stage-based troubleshooting methodology covering:
 
-These guides are designed to help technical teams:
+- Registration and profile assignment
+- Network connectivity
+- Entra join
+- MDM enrollment
+- Enrollment Status Page (ESP)
+- Diagnostic tools and log analysis
 
-- Diagnose common endpoint management issues
-- Follow repeatable troubleshooting flows
-- Validate prerequisites
-- Identify decision points
-- Document outcomes
-- Prepare for customer or internal working sessions
+📖 **Guide:** ./Autopilot-Troubleshooting-Decision-Tree.md
+
+#### Autopilot Troubleshooting Framework
+
+A structured troubleshooting framework designed for:
+
+- Customer workshops
+- Incident response
+- Root cause analysis
+- Escalation preparation
+
+📖 **Guide:** [Autopilot Troubleshooting Framework](./Autopilot-Troubleshooting Methodology
+
+For most endpoint deployment issues, follow this workflow:
+
+```text
+Registration
+    ↓
+Network
+    ↓
+Entra Join
+    ↓
+MDM Enrollment
+    ↓
+ESP
