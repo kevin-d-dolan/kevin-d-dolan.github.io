@@ -6,8 +6,8 @@ Practical troubleshooting and implementation runbooks for Microsoft Intune.
 
 | Runbook | Description |
 |----------|----------|
-| ./Autopilot-Troubleshooting-Decision-Tree.md | Step-by-step workflow for diagnosing Autopilot failures |
-| ./Autopilot-Troubleshooting-Framework.md | Structured methodology for workshops and investigations |
+| Autopilot-Troubleshooting-Decision-Tree | Step-by-step workflow for diagnosing Autopilot failures |
+| Autopilot-Troubleshooting-Framework | Structured methodology for workshops and investigations |
 
 ## Device Compliance
 
