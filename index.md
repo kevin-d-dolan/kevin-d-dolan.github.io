@@ -8,7 +8,7 @@ I build practical endpoint management, mobility, and security guidance for enter
 
 ## Portfolio Sections
 
-- [Resume](resume.md)
+- [Resume](Resume.md)
 - [Certifications](certifications.md)
 - [Intune Runbooks](intune-runbooks/)
 - [Architecture Guides](architecture-guides/)
