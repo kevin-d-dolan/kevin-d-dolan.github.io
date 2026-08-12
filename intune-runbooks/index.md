@@ -6,11 +6,11 @@ Practical troubleshooting and implementation runbooks for Microsoft Intune.
 
 ### Windows Autopilot
 
-- [Autopilot -Troubleshooting-Decision-Tree.md
-- ./Autopilot-Troubleshooting-Framework.md
+- [Autopilot Troubleshootingg-Decision-Tree.md
+- [Autopilot Troubleshooting Framework](.d
 
 ### Device Compliance
 
-- [BittLocker-Troubleshooting.md
-- [Compliance Policy Troubleshooting](./Compliance
-- [Enrollment Error ReferenceSP Troubleshooting Guide](./ESP-Troubleshooting
+- ./BitLocker-Troubleshooting.md
+- [Compliance Policy Troubleshooting](./Compliance-Policy-Troubleshootingrror Referencee.md
+- [ESP Troubleshooting Guide](./ESP-
