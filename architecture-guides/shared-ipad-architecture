@@ -1,0 +1,459 @@
+# Shared iPad Architecture Guide for Microsoft Intune
+
+*Enterprise Architecture for Education, Training Labs, Healthcare, Retail, and Frontline Shared Device Scenarios*
+
+---
+
+## Executive Summary
+
+Shared iPad is Apple's multi-user iPad platform that allows multiple users to securely use the same physical iPad while maintaining separate user profiles, applications, data, and settings.
+
+When integrated with **Apple School Manager (ASM)** or **Apple Business Manager (ABM)** and managed by **Microsoft Intune**, users can authenticate with their Microsoft Entra ID credentials and receive a personalized experience on any Shared iPad.
+
+This architecture is commonly used for:
+
+- K-12 education
+- Universities
+- Testing centers
+- Healthcare workstations
+- Manufacturing floors
+- Training labs
+- Shared corporate devices
+
+Shared iPad differs from Microsoft Entra Shared Device Mode because Shared iPad provides true multi-user local profiles and persistent user data.
+
+---
+
+## High-Level Architecture
+
+```mermaid
+flowchart TD
+    A[Microsoft Entra ID<br>Users and Authentication] -->|Federation| B[Apple School Manager<br>or Apple Business Manager<br>Managed Apple IDs]
+    B -->|ADE Assignment| C[Microsoft Intune<br>Enrollment Profiles<br>Compliance Policies<br>Configuration Policies<br>Apps]
+    C --> D[Shared iPad<br>Supervised<br>ADE Enrolled<br>User Partitions]
+    D --> E[End Users<br>Sign in with Entra ID<br>Persistent User Session]
+```
+
+Supported with:
+
+- Automated Device Enrollment (ADE)
+- Apple School Manager
+- Apple Business Manager
+- Microsoft Entra federation
+- Intune supervised devices
+
+---
+
+# Recommended Design
+
+## Identity Layer
+
+### Microsoft Entra ID
+
+Provides:
+
+- User accounts
+- Authentication
+- Conditional Access
+- MFA
+
+### Apple School Manager / Apple Business Manager
+
+Provides:
+
+- Managed Apple IDs
+- Device assignment
+- Automated Device Enrollment
+
+Shared iPad works best when Apple School Manager or Apple Business Manager is federated with Microsoft Entra ID. Users then sign in to Shared iPads using their Entra credentials.
+
+---
+
+# Enrollment Architecture
+
+## Required Components
+
+### Apple MDM Push Certificate
+
+```text
+Apple
+  ↔
+Intune
+```
+
+The Apple MDM Push Certificate is required for iOS/iPadOS device management through Intune.
+
+---
+
+## Automated Device Enrollment
+
+```mermaid
+flowchart TD
+    A[Apple School Manager<br>or Apple Business Manager] --> B[Automated Device Enrollment]
+    B --> C[Shared iPad]
+    C --> D[Microsoft Intune]
+```
+
+Shared iPad requires:
+
+- [x] Automated Device Enrollment
+- [x] Supervised Mode
+- [x] Enrollment without user affinity
+- [x] Shared iPad enabled
+
+---
+
+# Enrollment Profile Configuration
+
+In Intune, go to:
+
+```text
+Devices
+└── iOS/iPadOS
+    └── Enrollment
+        └── Apple Enrollment Tokens
+```
+
+## Enrollment Profile Settings
+
+| Setting | Recommended Value |
+|---|---|
+| User Affinity | No |
+| Supervised | Yes |
+| Shared iPad | Yes |
+| Locked Enrollment | Recommended |
+| Company Portal | Not required |
+| Setup Assistant | Modern Authentication |
+
+> **Important:** Shared iPad should use enrollment without user affinity.
+
+---
+
+# Shared iPad User Flow
+
+## First Sign-In
+
+```mermaid
+flowchart TD
+    A[Student or User] --> B[Enter Entra Username]
+    B --> C[Authenticate]
+    C --> D[Managed Apple ID Created]
+    D --> E[User Partition Created]
+    E --> F[Apps Download]
+    F --> G[Ready]
+```
+
+When federation is configured, Apple can create the Managed Apple ID during first sign-in.
+
+---
+
+## Subsequent Sign-Ins
+
+```mermaid
+flowchart TD
+    A[User] --> B[Select Profile]
+    B --> C[Enter Passcode]
+    C --> D[Session Restored]
+```
+
+User apps, settings, and data remain isolated from other users.
+
+---
+
+# Storage Architecture
+
+Shared iPad creates local user partitions.
+
+```text
+iPad Storage
+│
+├── System Partition
+│
+├── User 1
+├── User 2
+├── User 3
+└── Temporary Sessions
+```
+
+Each user receives dedicated storage.
+
+The number of profiles available is based on:
+
+- Total storage
+- Configured cache settings
+- Session design
+
+---
+
+# Application Architecture
+
+## Supported Apps
+
+Recommended app model:
+
+### Device-Licensed Apps
+
+```mermaid
+flowchart TD
+    A[Apple Volume Purchasing<br>VPP] --> B[Assign to Device]
+    B --> C[Shared iPad]
+```
+
+Applications deploy regardless of who signs in.
+
+Examples:
+
+- Microsoft Teams
+- Microsoft Edge
+- OneDrive
+- Power BI
+- Classroom apps
+- Testing software
+
+Shared iPad supports:
+
+- Device-licensed VPP apps
+- Line-of-business apps
+- Web apps
+
+---
+
+# Configuration Architecture
+
+## Recommended Policy Assignment
+
+```mermaid
+flowchart TD
+    A[Device Groups] --> B[Shared iPad Profile]
+    B --> C[Compliance]
+    C --> D[Restrictions]
+    D --> E[Apps]
+```
+
+Most Shared iPad environments should use device-based assignments where possible.
+
+## Device Configuration
+
+Recommended configuration areas:
+
+- Wi-Fi
+- Certificates
+- VPN
+- SSO extension
+- Home Screen Layout
+
+## Device Restrictions
+
+Recommended restrictions:
+
+- Block App Store
+- Require passcode
+- Restrict AirDrop
+- Restrict iCloud services
+
+---
+
+# Temporary Session Architecture
+
+Temporary sessions are useful for guest or non-persistent access scenarios.
+
+```mermaid
+flowchart TD
+    A[Guest User] --> B[Temporary Session]
+    B --> C[Uses Device]
+    C --> D[Logs Off]
+    D --> E[Data Removed]
+```
+
+Temporary sessions can be enabled or blocked.
+
+Common use cases:
+
+- Libraries
+- Testing centers
+- Public kiosks
+- Training rooms
+
+---
+
+# Recommended Education Design
+
+```mermaid
+flowchart TD
+    A[Microsoft Entra ID] --> B[Apple School Manager]
+    B --> C[Federation]
+    C --> D[Managed Apple IDs]
+    D --> E[Microsoft Intune]
+    E --> F[Shared iPads]
+    F --> G[Students]
+```
+
+## Benefits
+
+- Students can sign in to any shared device
+- Personalized environment
+- Persistent user data
+- Reduced hardware costs
+- Simplified management
+
+---
+
+# Recommended Frontline Work Scenario
+
+If the customer is not education and only needs shift-based access, consider:
+
+```text
+Shared Device Mode
+```
+
+instead of:
+
+```text
+Shared iPad
+```
+
+Shared Device Mode is often preferred for:
+
+- Retail
+- Healthcare
+- Manufacturing
+- Flight crews
+
+Shared Device Mode focuses on quick sign-in and sign-out rather than persistent local profiles.
+
+---
+
+# Shared iPad vs Shared Device Mode
+
+| Category | Shared iPad | Shared Device Mode |
+|---|---|---|
+| Primary use case | Education, labs, persistent shared user profiles | Frontline worker, shift-based access |
+| Supported devices | iPad | iPhone, iPod touch, iPad |
+| User data model | Local user partitions | App-based shared sign-in/sign-out |
+| Microsoft Entra federation with Apple required | Yes | No |
+| Managed Apple ID required | Yes | No |
+| Temporary session support | Yes | Not applicable |
+| App model | Device-licensed VPP apps, LOB apps, web apps | Apps that support Shared Device Mode |
+| Best fit | Students or users needing a persistent profile | Workers needing fast shared device turnover |
+
+---
+
+# Common Design Pitfalls
+
+| Pitfall | Impact |
+|---|---|
+| No Automated Device Enrollment | Shared iPad is unavailable |
+| No supervision | Shared iPad cannot be properly enabled |
+| User affinity enabled | Shared iPad configuration may fail or not behave as expected |
+| No federation | Users may need separate Managed Apple IDs |
+| Using user-assigned apps | Apps may not function correctly in shared scenarios |
+| Insufficient storage | User sessions may be evicted |
+| Confusing Shared iPad with Shared Device Mode | Wrong architecture selected |
+
+---
+
+# Architecture Checklist
+
+## Apple
+
+- [ ] Apple School Manager or Apple Business Manager configured
+- [ ] ADE token connected
+- [ ] Apple MDM Push Certificate active
+- [ ] Devices assigned to Intune
+
+## Identity
+
+- [ ] Entra ID users configured
+- [ ] Federation enabled
+- [ ] Managed Apple IDs validated
+
+## Intune
+
+- [ ] Enrollment profile created
+- [ ] Shared iPad enabled
+- [ ] User affinity set to No
+- [ ] Supervised mode enabled
+- [ ] Device groups created
+
+## Applications
+
+- [ ] VPP apps synchronized
+- [ ] Device-based licensing used
+- [ ] Required apps assigned
+
+## Security
+
+- [ ] Compliance policies assigned
+- [ ] Device restrictions configured
+- [ ] Conditional Access reviewed
+- [ ] MFA validated
+
+---
+
+# Troubleshooting Flow
+
+Use this flow when Shared iPads do not enroll correctly, users cannot sign in, or apps do not deploy as expected.
+
+```mermaid
+flowchart TD
+    A[Shared iPad issue reported] --> B{Device assigned to Intune MDM server in ASM or ABM?}
+    B -- No --> B1[Assign device to Intune MDM server and sync token]
+    B -- Yes --> C{ADE token active in Intune?}
+    C -- No --> C1[Renew or reconnect ADE token]
+    C -- Yes --> D{Apple MDM Push Certificate active?}
+    D -- No --> D1[Renew APNs certificate]
+    D -- Yes --> E{Enrollment profile assigned?}
+    E -- No --> E1[Assign Shared iPad enrollment profile]
+    E -- Yes --> F{Supervised mode enabled?}
+    F -- No --> F1[Enable supervision in enrollment profile]
+    F -- Yes --> G{User affinity disabled?}
+    G -- No --> G1[Set enrollment profile to enroll without user affinity]
+    G -- Yes --> H{Shared iPad enabled?}
+    H -- No --> H1[Enable Shared iPad in enrollment profile]
+    H -- Yes --> I{Federation configured?}
+    I -- No --> I1[Configure federation or manually create Managed Apple IDs]
+    I -- Yes --> J{Apps assigned as device-licensed required apps?}
+    J -- No --> J1[Assign VPP apps with device licensing]
+    J -- Yes --> K[Validate sign-in, app install, and user partition behavior]
+```
+
+---
+
+# Reference Architecture Recommendation
+
+For most K-12 and higher education customers:
+
+```text
+Shared iPad
++
+Apple School Manager federation
++
+Microsoft Entra ID
++
+Microsoft Intune
+```
+
+is the recommended reference architecture.
+
+For frontline worker scenarios, evaluate whether:
+
+```text
+Microsoft Entra Shared Device Mode
+```
+
+provides a simpler operational model before choosing Shared iPad.
+
+---
+
+# Public References to Add Before Publishing
+
+Replace internal OneNote, Outlook, Teams, SharePoint, or M365 conversation references with public documentation before publishing this guide to GitHub.
+
+Suggested public references:
+
+- Microsoft Intune Shared iPad documentation
+- Microsoft Intune shared iOS/iPadOS device solutions
+- Apple School Manager federated authentication documentation
+- Automated Device Enrollment for iOS/iPadOS in Intune
+- Apple MDM Push Certificate setup in Intune
+- Microsoft Entra Shared Device Mode documentation
